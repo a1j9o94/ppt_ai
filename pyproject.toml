@@ -1,0 +1,12 @@
+[project]
+name = "ppt-ai"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "flask>=3.0.3",
+    "pytest>=8.3.3",
+    "python-dotenv>=1.0.1",
+    "python-pptx>=1.0.2",
+]
