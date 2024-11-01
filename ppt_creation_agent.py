@@ -78,13 +78,9 @@ FUNCTION_DESCRIPTIONS = [
     {
         "name": "add_slide",
         "description": "Add a new slide to the presentation",
-        "parameters": {
-            "type": "object",
-            "properties": {
-                **SlideModel.model_json_schema()["properties"]
-            },
-            "required": ["ppt_name", "slide_title"]
-        }
+        "parameters": SlideModel.model_json_schema(),
+        # require all fields
+        "required": list(SlideModel.model_fields.keys())
     },
     {
         "name": "save_presentation",
@@ -318,7 +314,7 @@ def create_presentation_from_prompt(prompt: str, client=None) -> Dict[str, Any]:
 
 if __name__ == "__main__":
     # Example usage
-    prompt = "Create a 5 page presentation about how FMCG companies could use generative AI to improve their business"
+    prompt = "Create a 5 page presentation about fun activies you can do with your coworkers when you have downtime"
     try:
         logger.info(f"Starting presentation creation with prompt: {prompt}")
         result = create_presentation_from_prompt(prompt)

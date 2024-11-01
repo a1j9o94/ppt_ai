@@ -4,6 +4,7 @@ from pptx.dml.color import RGBColor
 from models import LayoutType
 import os
 import logging
+from pptx.enum.text import MSO_AUTO_SIZE
 
 # Set up logging with more detailed format
 logging.basicConfig(
@@ -238,6 +239,10 @@ def add_section_content(slide, start_x, start_y, width, height, section):
         header_frame = header_box.text_frame
         header_frame.text = section['header']
         header_frame.paragraphs[0].font.bold = True
+        
+        # Ensure header text wraps within the text box
+        header_frame.word_wrap = True
+        header_frame.auto_size = MSO_AUTO_SIZE.NONE
 
         # Add content
         logger.debug(f"Adding {len(section['content'])} content items")
@@ -249,19 +254,23 @@ def add_section_content(slide, start_x, start_y, width, height, section):
         )
         content_frame = content_box.text_frame
         
+        # Ensure content text wraps within the text box
+        content_frame.word_wrap = True
+        content_frame.auto_size = MSO_AUTO_SIZE.NONE
+        
         # Clear any existing paragraphs
         while len(content_frame.paragraphs) > 0:
             p = content_frame.paragraphs[0]
             p._p.getparent().remove(p._p)
-            
-        # Add content with our own bullet style
+                
+        # Add content with bullet points
         for item in section['content']:
             p = content_frame.add_paragraph()
-            p.text = f"• {item}"
+            p.text = item
             p.level = 0  # Base level for bullets
-            # Remove any default bullets
-            p.bullet = None
-            
+            # Enable bullet for the paragraph
+            p.bullet = True
+                
         logger.debug("Section content added successfully")
     except Exception as e:
         logger.error(f"Error adding section content: {str(e)}", exc_info=True)
