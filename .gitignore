@@ -10,7 +10,7 @@ wheels/
 .venv
 
 #pptx files at the root
-*.pptx
+./*.pptx
 
 #env file
 .env
