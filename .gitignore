@@ -8,3 +8,12 @@ wheels/
 
 # Virtual environments
 .venv
+
+#pptx files at the root
+*.pptx
+
+#env file
+.env
+
+#items in the output folder
+output/*
